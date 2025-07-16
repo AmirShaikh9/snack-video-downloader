@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SnackVideo Downloader</title>
+</head>
+<body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+  <h2>SnackVideo Downloader (No Watermark)</h2>
+  <input id="url" type="text" placeholder="Paste SnackVideo URL here" size="50">
+  <br><br>
+  <button onclick="download()">Download</button>
+  <br><br>
+  <div id="result"></div>
+
+  <script>
+    async function download() {
+      const input = document.getElementById('url').value;
+      const res = await fetch(`/api/download?url=${encodeURIComponent(input)}`);
+      const data = await res.json();
+
+      const div = document.getElementById('result');
+      if (data.videoUrl) {
+        div.innerHTML = `<a href="${data.videoUrl}" download target="_blank">Download Video Now</a>`;
+      } else {
+        div.innerText = data.error || "Something went wrong.";
+      }
+    }
+  </script>
+</body>
+</html>
